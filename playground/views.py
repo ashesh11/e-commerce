@@ -1,13 +1,11 @@
+from decimal import Decimal
 from django.shortcuts import render
-from django.http import HttpResponse
-
-
-def calculate():
-    x = 1
-    y = 2
-    return x
-
+from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
+from store.models import Collection, OrderItem, Product, Order
+from tags.models import TaggedItem
 
 def say_hello(request):
-    x = calculate()
-    return render(request, 'hello.html', {'name': 'Mosh'})
+    queryset = Product.objects.raw('SELECT id, title FROM store_product')
+
+    return render(request, 'playground/hello.html', {'name': 'Ashesh', 'result':list(queryset)})
